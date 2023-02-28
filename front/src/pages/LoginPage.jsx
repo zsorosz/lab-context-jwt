@@ -1,45 +1,42 @@
-import { Box, Button, PasswordInput, Text, TextInput } from '@mantine/core'
+import { Box, Button, PasswordInput, Text, TextInput } from "@mantine/core";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SessionContext } from "../contexts/SessionContext";
+import AuthForm from "../components/AuthForm";
 
 const LoginPage = () => {
-  // Add some states to control your inputs
+  const navigate = useNavigate();
+  const { setToken } = useContext(SessionContext);
 
-  const handleSubmit = event => {
-    event.preventDefault()
-    // Send your login information to your backend
-  }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    const response = await fetch("http://localhost:5005/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const parsed = await response.json();
+    setToken(parsed.token);
+    navigate("/profile");
+  };
 
   return (
-    <Box
-      sx={{
-        margin: '0 auto',
-        maxWidth: '400px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        height: 'calc(100vh - 100px)',
-      }}
-    >
-      <Text align='center' size='xl' weight='bold'>
-        Login
-      </Text>
-      <Box
-        component='form'
-        sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '2rem' }}
-        onSubmit={handleSubmit}
-      >
-        <TextInput label='Username' variant='filled' withAsterisk />
-        <PasswordInput label='Password' variant='filled' withAsterisk />
-        <Button
-          type='submit'
-          variant='filled'
-          color='cyan'
-          sx={{ marginTop: '1rem', alignSelf: 'center' }}
-        >
-          Connect
-        </Button>
-      </Box>
-    </Box>
-  )
-}
+    <>
+      <h1>Login</h1>
+      <AuthForm
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        handleSubmit={handleSubmit}
+        isLogin
+      />
+    </>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

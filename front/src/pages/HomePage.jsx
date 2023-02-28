@@ -1,20 +1,21 @@
-import { Box, Text } from '@mantine/core'
+import { Box, Text } from "@mantine/core";
 
 const HomePage = () => {
+  console.log("home page");
   return (
     <Box
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 'calc(100vh - 100px)',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "calc(100vh - 100px)",
       }}
     >
-      <Text size='xl' weight='bold' align='center'>
+      <Text size="xl" weight="bold" align="center">
         Some place to talk about something like unicorns for example
       </Text>
     </Box>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
